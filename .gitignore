@@ -14,3 +14,4 @@ pyproject.toml
 
 # Directories
 data/
+extra/
