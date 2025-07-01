@@ -3,7 +3,7 @@ import torch
 import numpy as np
 import mediapipe as mp
 from torchvision import transforms
-from src.resnet_model import FacialEmotionResNet  # Adjust import if needed
+from src.resnet_model import FacialEmotionResNet
 
 # Initialize MediaPipe Face Detection
 mp_face_detection = mp.solutions.face_detection
@@ -79,7 +79,6 @@ while True:
                     confidence, predicted = torch.max(probabilities, 0)
                     emotion = emotion_labels[predicted.item()]
 
-                # Draw Bounding Box and Emotion
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
                 cv2.putText(
                     frame,
@@ -91,7 +90,6 @@ while True:
                     2,
                 )
 
-                # Optional: Draw face landmarks
                 mp_drawing.draw_detection(frame, detection)
 
             except Exception as e:

@@ -2,7 +2,7 @@ import cv2
 import torch
 import numpy as np
 from torchvision import transforms
-from src import FacialEmotionCNN  # Adjust this if your model import path is different
+from src import FacialEmotionCNN
 
 # Load Haar Cascade
 face_cascade = cv2.CascadeClassifier(
@@ -42,8 +42,7 @@ while True:
 
     for x, y, w, h in faces:
         try:
-            # Add padding and ensure square crop
-            padding = 20  # You can adjust this
+            padding = 20
             cx, cy = x + w // 2, y + h // 2
             size = max(w, h) + 2 * padding
 
@@ -54,14 +53,12 @@ while True:
 
             face = frame[int(y1) : int(y2), int(x1) : int(x2)]
 
-            # Preprocess the face
-            face_tensor = preprocess(face).unsqueeze(0)  # Shape: [1, 3, 48, 48]
+            face_tensor = preprocess(face).unsqueeze(0)
 
             with torch.no_grad():
                 outputs = model(face_tensor)
                 probabilities = torch.softmax(outputs, dim=1).squeeze()
 
-                # Print all probabilities for inspection
                 for idx, prob in enumerate(probabilities):
                     print(f"{emotion_labels[idx]}: {prob.item() * 100:.1f}%")
 
